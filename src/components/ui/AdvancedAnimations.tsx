@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, useAnimation, useInView } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import { useEffect, useRef, ReactNode, useState } from 'react';
 
 // Magnetic button effect
@@ -132,12 +132,7 @@ export const Reveal = ({ children, direction = 'up', delay = 0, className = '' }
       x: 0,
       y: 0,
       scale: 1,
-      filter: 'blur(0px)',
-      transition: {
-        duration: 0.8,
-        delay,
-        ease: [0.25, 0.46, 0.45, 0.94]
-      }
+      filter: 'blur(0px)'
     }
   };
 
@@ -147,6 +142,11 @@ export const Reveal = ({ children, direction = 'up', delay = 0, className = '' }
       variants={variants}
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
+      transition={{
+        duration: 0.8,
+        delay,
+        ease: "easeOut"
+      }}
       className={className}
     >
       {children}

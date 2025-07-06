@@ -85,24 +85,24 @@ export default function AnalyzePage() {
           : ['TypeScript', 'AWS', 'Docker', 'Machine Learning'],
         feedback: scanType === 'jobDescription' ? [
           {
-            type: 'success',
+            type: 'success' as const,
             message: 'Excellent match with job requirements - strong technical skills alignment',
             category: 'Job Match'
           },
           {
-            type: 'success',
+            type: 'success' as const,
             message: 'Keywords align well with job posting requirements',
             category: 'Keywords'
           },
           {
-            type: 'warning',
+            type: 'warning' as const,
             message: 'Consider highlighting experience with microservices architecture',
             category: 'Experience',
             correction: 'Add a bullet point: "Designed and implemented microservices architecture using Docker and Kubernetes"',
             isLocked: !isLoggedIn
           },
           {
-            type: 'error',
+            type: 'error' as const,
             message: 'Add specific examples of API development projects mentioned in job description',
             category: 'Content',
             correction: 'Replace generic descriptions with: "Developed RESTful APIs serving 10K+ requests/day with 99.9% uptime"',
@@ -110,26 +110,26 @@ export default function AnalyzePage() {
           }
         ] : [
           {
-            type: 'success',
+            type: 'success' as const,
             message: 'Strong technical skills section with relevant keywords',
             category: 'Skills'
           },
           {
-            type: 'warning',
+            type: 'warning' as const,
             message: 'Consider adding more quantifiable achievements',
             category: 'Experience',
             correction: 'Replace "Worked on team projects" with "Led a team of 5 developers, delivering 3 major projects on time"',
             isLocked: !isLoggedIn
           },
           {
-            type: 'error',
+            type: 'error' as const,
             message: 'Missing contact information (LinkedIn profile)',
             category: 'Contact',
             correction: 'Add your LinkedIn profile URL after your email address',
             isLocked: !isLoggedIn
           },
           {
-            type: 'info',
+            type: 'info' as const,
             message: 'Resume length is optimal (2 pages)',
             category: 'Format'
           }
@@ -139,35 +139,35 @@ export default function AnalyzePage() {
             section: 'Professional Summary',
             issue: 'Generic summary lacks specific achievements',
             correction: 'Replace with: "Results-driven Software Developer with 5+ years experience building scalable web applications. Increased team productivity by 30% through process optimization and mentored 3 junior developers to successful project completion."',
-            impact: 'high',
+            impact: 'high' as const,
             isLocked: !isLoggedIn
           },
           {
             section: 'Work Experience',
             issue: 'Missing quantifiable metrics in job descriptions',
             correction: 'Add specific numbers: "Optimized database queries reducing load time by 45%" instead of "Improved database performance"',
-            impact: 'high',
+            impact: 'high' as const,
             isLocked: !isLoggedIn
           },
           {
             section: 'Skills Section',
             issue: 'Skills not organized by proficiency level',
             correction: 'Organize skills into: "Expert: JavaScript, React, Node.js" and "Proficient: Python, AWS, Docker"',
-            impact: 'medium',
+            impact: 'medium' as const,
             isLocked: !isLoggedIn
           },
           {
             section: 'Contact Information',
             issue: 'Missing LinkedIn and GitHub profiles',
             correction: 'Add: "LinkedIn: linkedin.com/in/yourname" and "GitHub: github.com/yourusername"',
-            impact: 'medium',
+            impact: 'medium' as const,
             isLocked: !isLoggedIn
           },
           {
             section: 'Education',
             issue: 'Missing relevant coursework or GPA (if strong)',
             correction: 'Add relevant coursework: "Relevant Coursework: Data Structures, Algorithms, Software Engineering"',
-            impact: 'low',
+            impact: 'low' as const,
             isLocked: !isLoggedIn
           }
         ]

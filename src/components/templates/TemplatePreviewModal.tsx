@@ -11,7 +11,7 @@ import DownloadModal from './DownloadModal';
 interface TemplatePreviewModalProps {
   isOpen: boolean;
   onClose: () => void;
-  template: Template;
+  template: Template | null;
   saveWork: (templateId: string, content: string) => void;
 }
 
@@ -51,16 +51,15 @@ export default function TemplatePreviewModal({ isOpen, onClose, template, saveWo
         format: 'a4'
       });
 
-      const imgProps = pdf.getImageProperties(imgData);
       const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      const pdfHeight = pdf.internal.pageSize.getHeight();
 
       pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-      pdf.save(`${template.name.replace(/\s+/g, '_')}_Resume.pdf`);
+      pdf.save(`${template?.name.replace(/\s+/g, '_') || 'Resume'}_Resume.pdf`);
     } else if (format === 'docx') {
       // For DOCX, we'll create a simple downloadable file
       // In a real implementation, you'd use a library like docx or call an API
-      const docxContent = generateDocxContent(template);
+      const docxContent = generateDocxContent();
       const blob = new Blob([docxContent], { 
         type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' 
       });
@@ -68,7 +67,7 @@ export default function TemplatePreviewModal({ isOpen, onClose, template, saveWo
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `${template.name.replace(/\s+/g, '_')}_Resume.docx`;
+      a.download = `${template?.name.replace(/\s+/g, '_') || 'Resume'}_Resume.docx`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -78,7 +77,7 @@ export default function TemplatePreviewModal({ isOpen, onClose, template, saveWo
     setIsGenerating(false);
   };
 
-  const generateDocxContent = (template: Template) => {
+  const generateDocxContent = () => {
     // This is a simplified DOCX content - in production you'd use a proper library
     return `
 JOHN SMITH
@@ -119,6 +118,7 @@ TECHNICAL SKILLS
   };
 
   const handleSave = () => {
+    if (!template) return;
     const previewContent = document.getElementById('preview-area')?.innerHTML || '';
     saveWork(template.id, previewContent);
     onClose();
@@ -167,17 +167,18 @@ TECHNICAL SKILLS
           </button>
 
           <h2 className="text-2xl font-bold text-gray-900 mb-4">
-            {template.name} Preview
+            {template?.name || 'Template'} Preview
           </h2>
 
           <div id="preview-area" className="bg-gray-100 p-4 rounded-lg border max-h-[70vh] overflow-y-auto">
             <div className="flex justify-center">
-              <FullResumePreview
-                templateId={template.id}
-                colors={template.colors}
-                category={template.category}
-                className="transform scale-75 origin-top"
-              />
+              {template && (
+                <FullResumePreview
+                  colors={template.colors}
+                  category={template.category}
+                  className="transform scale-75 origin-top"
+                />
+              )}
             </div>
           </div>
 

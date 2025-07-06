@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Edit3, 
   Trash2, 
-  Download, 
   Plus, 
   FileText, 
   Calendar,
@@ -27,11 +26,7 @@ interface SavedResume {
   isFavorite?: boolean;
 }
 
-interface UserDashboardProps {
-  userId?: string;
-}
-
-export default function UserDashboard({ userId }: UserDashboardProps) {
+export default function UserDashboard() {
   const [savedResumes, setSavedResumes] = useState<SavedResume[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedResume, setSelectedResume] = useState<SavedResume | null>(null);
@@ -53,22 +48,6 @@ export default function UserDashboard({ userId }: UserDashboardProps) {
     loadSavedResumes();
   }, []);
 
-  const saveResume = (templateId: string, content: string, title?: string) => {
-    const newResume: SavedResume = {
-      id: Date.now().toString(),
-      templateId,
-      templateName: getTemplateName(templateId),
-      title: title || `Resume ${savedResumes.length + 1}`,
-      content,
-      lastModified: new Date().toISOString(),
-      created: new Date().toISOString(),
-      isFavorite: false,
-    };
-
-    const updatedResumes = [...savedResumes, newResume];
-    setSavedResumes(updatedResumes);
-    localStorage.setItem('savedResumes', JSON.stringify(updatedResumes));
-  };
 
   const deleteResume = (id: string) => {
     const updatedResumes = savedResumes.filter(resume => resume.id !== id);
@@ -99,16 +78,6 @@ export default function UserDashboard({ userId }: UserDashboardProps) {
     localStorage.setItem('savedResumes', JSON.stringify(updatedResumes));
   };
 
-  const getTemplateName = (templateId: string): string => {
-    // In a real app, you'd get this from your templates data
-    const templateNames: Record<string, string> = {
-      'modern-pro-1': 'Modern Professional',
-      'classic-exec-1': 'Executive Classic',
-      'minimal-pro-1': 'Minimalist Pro',
-      // Add more mappings as needed
-    };
-    return templateNames[templateId] || 'Unknown Template';
-  };
 
   const formatDate = (dateString: string): string => {
     const date = new Date(dateString);

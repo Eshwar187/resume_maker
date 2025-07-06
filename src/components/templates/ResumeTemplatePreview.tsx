@@ -3,22 +3,16 @@
 import React from 'react';
 
 interface ResumeTemplatePreviewProps {
-  templateId: string;
   colors: {
     primary: string;
     secondary: string;
     accent: string;
   };
-  category: 'modern' | 'classic' | 'creative' | 'minimal' | 'executive';
+  category: string;
   className?: string;
 }
 
-const ResumeTemplatePreview: React.FC<ResumeTemplatePreviewProps> = ({
-  templateId,
-  colors,
-  category,
-  className = ''
-}) => {
+const ResumeTemplatePreview: React.FC<ResumeTemplatePreviewProps> = ({ colors, category, className = '' }) => {
   const renderModernTemplate = () => (
     <div className={`w-full h-full bg-white text-xs ${className}`} style={{ fontSize: '6px' }}>
       {/* Header */}

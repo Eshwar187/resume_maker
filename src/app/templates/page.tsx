@@ -3,8 +3,8 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FileText, Download, Eye, Star, CheckCircle, Palette, Layout, Briefcase, Lock } from 'lucide-react';
-import Header from '@/components/common/Header';
 import { PulseLoader } from '@/components/ui/LoadingSpinner';
+import Header from '@/components/common/Header';
 import TemplatePreviewModal from '@/components/templates/TemplatePreviewModal';
 import ResumeTemplatePreview from '@/components/templates/ResumeTemplatePreview';
 import DownloadModal from '@/components/templates/DownloadModal';
@@ -364,7 +364,9 @@ const TemplateCard: React.FC<{
   handlePreview: (id: string) => void;
   handleDownload: (id: string) => void;
   isDownloading: string | null;
-}> = ({ template, index, handlePreview, handleDownload, isDownloading }) => (
+  isLoggedIn: boolean;
+  setShowAuthModal: (show: boolean) => void;
+}> = ({ template, index, handlePreview, handleDownload, isDownloading, isLoggedIn, setShowAuthModal }) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
@@ -373,7 +375,6 @@ const TemplateCard: React.FC<{
   >
     <div className="relative group">
       <ResumeTemplatePreview
-        templateId={template.id}
         colors={template.colors}
         category={template.category}
         className="w-full h-[250px]"
@@ -477,7 +478,7 @@ const TemplateCard: React.FC<{
 );
 
 export default function TemplatesPage() {
-  const { isLoggedIn, login } = useAuth();
+  const { login, isLoggedIn } = useAuth();
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [isDownloading, setIsDownloading] = useState<string | null>(null);
   const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
@@ -528,9 +529,8 @@ export default function TemplatesPage() {
         const imgData = canvas.toDataURL('image/png');
         const pdf = new jsPDF('p', 'mm', 'a4');
         
-        const imgProps = pdf.getImageProperties(imgData);
         const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+        const pdfHeight = pdf.internal.pageSize.getHeight();
         
         pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
         pdf.save(`${downloadTemplate.name.replace(/\s+/g, '_')}_Template.pdf`);
@@ -575,8 +575,14 @@ export default function TemplatesPage() {
     }
   };
 
-  const handleAuthSuccess = (userData: { id: string; name: string; email: string }) => {
-    login(userData);
+  const handleAuthSuccess = () => {
+    // Create a mock user object since login is handled by the AuthModal
+    const mockUser = {
+      id: Date.now().toString(),
+      name: 'User', 
+      email: 'user@example.com'
+    };
+    login(mockUser);
     setShowAuthModal(false);
   };
 
@@ -646,6 +652,8 @@ export default function TemplatesPage() {
                     handlePreview={handlePreview}
                     handleDownload={handleDownload}
                     isDownloading={isDownloading}
+                    isLoggedIn={isLoggedIn}
+                    setShowAuthModal={setShowAuthModal}
                   />
                 ))
               ) : (

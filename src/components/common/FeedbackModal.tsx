@@ -177,7 +177,7 @@ export default function FeedbackModal({ isOpen, onClose, onSubmit }: FeedbackMod
                           type="button"
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
-                          onClick={() => setFeedback(prev => ({ ...prev, category: category.id as 'general' | 'feature' | 'bug' | 'improvement' }))}
+                          onClick={() => setFeedback(prev => ({ ...prev, category: category.id as 'general' | 'template' | 'feature' | 'bug' | 'suggestion' }))}
                           className={`flex items-center space-x-2 p-3 rounded-lg border transition-colors text-sm ${
                             feedback.category === category.id
                               ? 'border-blue-500 bg-blue-50 text-blue-700'

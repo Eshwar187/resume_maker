@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Download, FileText, FileCheck, Loader2 } from 'lucide-react';
-import { PulseLoader } from '@/components/ui/LoadingSpinner';
 
 interface DownloadModalProps {
   isOpen: boolean;

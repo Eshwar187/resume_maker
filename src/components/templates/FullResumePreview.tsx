@@ -3,7 +3,6 @@
 import React from 'react';
 
 interface FullResumePreviewProps {
-  templateId: string;
   colors: {
     primary: string;
     secondary: string;
@@ -14,7 +13,6 @@ interface FullResumePreviewProps {
 }
 
 const FullResumePreview: React.FC<FullResumePreviewProps> = ({
-  templateId,
   colors,
   category,
   className = ''

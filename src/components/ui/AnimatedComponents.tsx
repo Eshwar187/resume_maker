@@ -207,7 +207,7 @@ export const AnimatedCounter = ({ from, to, duration = 2, delay = 0, className =
       }}
       onUpdate={(latest) => {
         const element = document.getElementById('counter');
-        if (element) {
+        if (element && typeof latest.y === 'number') {
           element.textContent = Math.round(latest.y).toString();
         }
       }}

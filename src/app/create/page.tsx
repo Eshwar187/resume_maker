@@ -434,8 +434,13 @@ export default function CreatePage() {
   };
 
   const handleAuthSuccess = () => {
-    // Login is handled by the AuthContext
-    login();
+    // Create a mock user object since login is handled by the AuthModal
+    const mockUser = {
+      id: Date.now().toString(),
+      name: 'User',
+      email: 'user@example.com'
+    };
+    login(mockUser);
     if (selectedTemplate) {
       handleTemplateSelect(selectedTemplate);
       setSelectedTemplate(null);
@@ -516,7 +521,6 @@ export default function CreatePage() {
 
       <div className="relative h-64 overflow-hidden">
         <ResumeTemplatePreview
-          templateId={template.id}
           colors={template.colors}
           category={template.category}
           className="w-full h-full"

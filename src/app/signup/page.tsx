@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Mail, Eye, EyeOff, AlertCircle, ArrowLeft, User, Sparkles } from 'lucide-react';
+import { Mail, Eye, EyeOff, AlertCircle, ArrowLeft, User, Sparkles, CheckCircle } from 'lucide-react';
 
 interface FormData {
   name: string;
