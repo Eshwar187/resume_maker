@@ -11,6 +11,10 @@ from docx import Document
 import json
 from datetime import datetime
 
+# Auth imports
+from auth_routes import auth_router
+from database import connect_to_mongo, close_mongo_connection
+
 directory = os.path.dirname(__file__)
 nlp = spacy.load('en_core_web_sm')
 
@@ -28,6 +32,18 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Include auth router
+app.include_router(auth_router, prefix="/api/auth", tags=["authentication"])
+
+# Database event handlers
+@app.on_event("startup")
+async def startup_event():
+    await connect_to_mongo()
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    await close_mongo_connection()
 
 def parse_pdf(file_path: str) -> str:
     with open(file_path, 'rb') as file:
